@@ -1,0 +1,40 @@
+# pi-roles unit — the role host (durable role agents on Pi Durable).
+# Install: cp systemd/pi-roles.service /etc/systemd/system/ && systemctl daemon-reload
+#          && systemctl enable --now pi-roles
+# Set the environment lines to match your host; see docs/ADOPTING.md for every variable.
+[Unit]
+Description=Permanent roles host (durable role agents on Pi Durable)
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+# One process owns the SQLite storage; the CLI reaches a running instance only through the
+# admin socket, never the file.
+WorkingDirectory=/opt/pi-durable-permanent-roles
+ExecStart=/opt/pi-durable-permanent-roles/bin/pi-roles-serve
+Environment=HOME=/root
+Environment=NODE_ENV=production
+# Role shells need the directories your agent CLIs install into; extend as needed.
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=STANDING_ROLES_STATE_DIR=/var/lib/pi-roles
+# Schedules off by default: nothing runs until you have filled in the role templates and turn
+# schedules on (docs/ADOPTING.md, Install). Roles ship disabled too — enable one at a time.
+# Integrations stay off until you configure a command (docs/ADOPTING.md, Bring your own
+# orchestration and memory). Notifications go to the state directory's notifications.jsonl
+# until STANDING_ROLES_NOTIFY_COMMAND is set.
+Environment=STANDING_ROLES_SCHEDULES=off
+Environment=STANDING_ROLES_TIMEZONE=UTC
+Environment=STANDING_ROLES_GUARDED_SERVICES=
+Environment=STANDING_ROLES_SERVICE_NAME=pi-roles
+Restart=always
+RestartSec=5
+# The host is idle almost all the time; a small, capped footprint. Role runs share this cap.
+MemoryMax=3G
+CPUQuota=100%
+Nice=5
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

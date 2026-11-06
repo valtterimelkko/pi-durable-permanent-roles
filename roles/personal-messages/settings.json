@@ -1,0 +1,33 @@
+{
+  "enabled": false,
+  "title": "Personal messages",
+  "boardName": "role-personal-messages",
+  "schedule": [
+    {
+      "at": "08:00",
+      "days": "daily"
+    },
+    {
+      "at": "18:00",
+      "days": "daily"
+    }
+  ],
+  "cwd": "/root",
+  "tools": [
+    "coding",
+    "integrations",
+    "notify"
+  ],
+  "limits": [
+    "read-only-messaging"
+  ],
+  "readOnlyRules": "never-run.json",
+  "reportCounts": [
+    "messages_read",
+    "sources_read",
+    "items_raised"
+  ],
+  "everyRunCounts": [
+    "sources_read"
+  ]
+}

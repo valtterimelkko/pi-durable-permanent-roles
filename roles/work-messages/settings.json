@@ -1,0 +1,37 @@
+{
+  "enabled": false,
+  "title": "Work messages",
+  "boardName": "role-work-messages",
+  "schedule": [
+    {
+      "at": "08:00",
+      "days": "weekdays"
+    },
+    {
+      "at": "13:00",
+      "days": "weekdays"
+    },
+    {
+      "at": "18:00",
+      "days": "weekdays"
+    }
+  ],
+  "cwd": "/root",
+  "tools": [
+    "coding",
+    "integrations",
+    "notify"
+  ],
+  "limits": [
+    "read-only-messaging"
+  ],
+  "readOnlyRules": "never-run.json",
+  "reportCounts": [
+    "messages_read",
+    "threads_flagged",
+    "items_raised"
+  ],
+  "everyRunCounts": [
+    "messages_read"
+  ]
+}

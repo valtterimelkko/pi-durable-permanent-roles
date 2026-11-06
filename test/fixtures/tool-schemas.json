@@ -1,0 +1,221 @@
+{
+	"docs_commit": {
+		"properties": {
+			"message": {
+				"description": "The commit message (one line).",
+				"type": "string"
+			},
+			"paths": {
+				"description": "Repository-relative doc paths (*.md, *.mdx, docs/**), exactly what this commit may touch.",
+				"items": {
+					"type": "string"
+				},
+				"type": "array"
+			},
+			"repo": {
+				"description": "The repository's absolute directory.",
+				"type": "string"
+			}
+		},
+		"required": [
+			"repo",
+			"paths",
+			"message"
+		],
+		"type": "object"
+	},
+	"memory_capture": {
+		"properties": {
+			"note": {
+				"type": "string"
+			}
+		},
+		"required": [
+			"note"
+		],
+		"type": "object"
+	},
+	"memory_recall": {
+		"properties": {
+			"query": {
+				"type": "string"
+			}
+		},
+		"required": [
+			"query"
+		],
+		"type": "object"
+	},
+	"notify_owner": {
+		"properties": {
+			"body": {
+				"type": "string"
+			},
+			"title": {
+				"type": "string"
+			}
+		},
+		"required": [
+			"title",
+			"body"
+		],
+		"type": "object"
+	},
+	"peer_ask_owner": {
+		"properties": {
+			"text": {
+				"type": "string"
+			},
+			"thread": {
+				"type": "string"
+			}
+		},
+		"required": [
+			"thread",
+			"text"
+		],
+		"type": "object"
+	},
+	"peer_reply": {
+		"properties": {
+			"text": {
+				"type": "string"
+			},
+			"thread": {
+				"type": "string"
+			}
+		},
+		"required": [
+			"thread",
+			"text"
+		],
+		"type": "object"
+	},
+	"peer_thread_close": {
+		"properties": {
+			"text": {
+				"type": "string"
+			},
+			"thread": {
+				"type": "string"
+			}
+		},
+		"required": [
+			"thread",
+			"text"
+		],
+		"type": "object"
+	},
+	"raise_item": {
+		"properties": {
+			"body": {
+				"description": "What is going on and what the owner should do; markdown, at most 2,000 characters.",
+				"type": "string"
+			},
+			"kind": {
+				"description": "problem | suggestion | flag | reminder",
+				"type": "string"
+			},
+			"link": {
+				"description": "An optional path or URL with the detail.",
+				"type": "string"
+			},
+			"suggestion": {
+				"properties": {
+					"action": {
+						"description": "delegate | launch | send-to-role",
+						"type": "string"
+					},
+					"brief": {
+						"description": "The launch brief, or the delegation's shared context for every task; at most 4,000 characters. The coordination layer adds the wait-for-the-operator opening itself.",
+						"type": "string"
+					},
+					"tasks": {
+						"description": "The tasks to delegate: 1–20, the whole list in this one item. Required for delegate. Classify each task; never choose a model or a session — a delegation always starts a new session, and the coordination layer picks the model.",
+						"items": {
+							"properties": {
+								"category": {
+									"description": "system (system functions and coding) | messaging (email and messaging)",
+									"type": "string"
+								},
+								"text": {
+									"description": "One task, at most 500 characters.",
+									"type": "string"
+								}
+							},
+							"required": [
+								"category",
+								"text"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"action"
+				],
+				"type": "object"
+			},
+			"title": {
+				"description": "One line, at most 120 characters.",
+				"type": "string"
+			}
+		},
+		"required": [
+			"kind",
+			"title",
+			"body"
+		],
+		"type": "object"
+	},
+	"report_run": {
+		"properties": {
+			"counts": {
+				"additionalProperties": {
+					"type": "number"
+				},
+				"description": "Your named counts for this run, e.g. { judged: 34, alerted: 0 } — non-negative integers, at most 12 names.",
+				"type": "object"
+			},
+			"did": {
+				"description": "What you did this run: at most five short lines (200 characters each).",
+				"items": {
+					"type": "string"
+				},
+				"type": "array"
+			},
+			"notCovered": {
+				"description": "What you could not do or check this run; an empty string when everything was covered. At most 300 characters.",
+				"type": "string"
+			},
+			"proposals": {
+				"description": "How many new rule proposals you wrote to RULE-PROPOSALS.md this run.",
+				"type": "number"
+			}
+		},
+		"required": [
+			"counts",
+			"did",
+			"notCovered",
+			"proposals"
+		],
+		"type": "object"
+	},
+	"resolve_item": {
+		"properties": {
+			"id": {
+				"description": "The id raise_item returned.",
+				"type": "string"
+			},
+			"note": {
+				"description": "Optional, at most 300 characters: how it stopped being true.",
+				"type": "string"
+			}
+		},
+		"required": [
+			"id"
+		],
+		"type": "object"
+	}
+}

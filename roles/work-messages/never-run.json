@@ -1,0 +1,24 @@
+{
+	"reference": "roles/work-messages/MESSAGING.md",
+	"role": "work-messages",
+	"rules": [
+		{
+			"cli": "YOUR_MAIL_CLI",
+			"surface": "the watched work mailbox",
+			"verbs": [
+				{ "path": ["send"] },
+				{ "path": ["reply"] },
+				{ "path": ["forward"] },
+				{ "path": ["draft"] },
+				{ "path": ["login"] },
+				{ "path": ["move"] },
+				{ "path": ["archive"] },
+				{ "path": ["label"] },
+				{ "path": ["mark-read"] },
+				{ "path": ["delete"] },
+				{ "path": ["download-attachment"] }
+			],
+			"flags": ["--send", "--submit", "--mark-read", "--draft"]
+		}
+	]
+}

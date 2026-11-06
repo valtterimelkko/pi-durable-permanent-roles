@@ -1,0 +1,6 @@
+import { it, expect } from "vitest";
+import { refuseReason } from "../src/limits.ts";
+const must = ["reboot","sudo /sbin/reboot now","bash -c 'reboot'","sh -c \"shutdown -h now\"","echo hi; $(reboot)","`poweroff`","systemctl start reboot.target","systemctl isolate poweroff.target","echo b > /proc/sysrq-trigger","shutdown -r +1","systemctl --no-wall reboot","env FOO=1 reboot","(reboot)","{ reboot; }","kexec","telinit 6","init 0","systemctl --force --force reboot","xargs reboot","FOO=1 reboot","nohup sudo -n reboot &","busybox reboot","dbus-send --system --dest=org.freedesktop.login1 /org/freedesktop/login1 org.freedesktop.login1.Manager.Reboot","loginctl reboot"];
+const may = ["echo reboot-notes","git log --grep=shutdown","cat /var/run/reboot-required","ls /var/run/reboot-required.pkgs","apt list --upgradable","systemctl status pi-web-ui","grep -r halt docs/","echo \"remember to reboot later\" > notes.md","apt-get -s upgrade | grep -i reboot","test -f /var/run/reboot-required && cat /var/run/reboot-required.pkgs"];
+for (const c of must) it(`refuses: ${c}`, () => { expect(refuseReason(c)).toBeDefined(); });
+for (const c of may) it(`allows: ${c}`, () => { expect(refuseReason(c)).toBeUndefined(); });

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# roles-backup — the role host's daily SQLite state backup.
+#
+# SQLite's online backup of <stateDir>/roles.db into <stateDir>/backups/roles-YYYYmmdd-HHMMSS.db, keeping the newest
+# 14. It reads the database read-only and never stops or touches the running host, so it is safe while roles run. The
+# logic is src/backup.ts (tested, test/backup.test.ts); this wrapper only supplies the state directory and the exit code.
+#
+# Exit codes: 0 a backup was written (and old copies pruned), 1 the backup failed (the reason on stderr).
+set -euo pipefail
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+exec node --experimental-strip-types "$DIR/src/roles-backup-cli.ts" "$@"

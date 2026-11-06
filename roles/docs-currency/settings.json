@@ -1,0 +1,26 @@
+{
+  "enabled": false,
+  "title": "Docs currency",
+  "boardName": "role-docs-currency",
+  "schedule": [
+    {
+      "at": "22:00",
+      "days": "daily"
+    }
+  ],
+  "cwd": "/root",
+  "tools": [
+    "coding",
+    "integrations",
+    "notify"
+  ],
+  "limits": [
+    "docs-only-commits"
+  ],
+  "reportCounts": [
+    "repos_checked",
+    "fixes_committed",
+    "flags",
+    "uncommitted_repos"
+  ]
+}

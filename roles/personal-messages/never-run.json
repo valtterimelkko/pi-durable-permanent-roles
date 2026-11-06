@@ -1,0 +1,35 @@
+{
+	"reference": "roles/personal-messages/MAIL.md",
+	"role": "personal-messages",
+	"rules": [
+		{
+			"cli": "YOUR_MAIL_CLI",
+			"surface": "the operator's personal mailbox",
+			"verbs": [
+				{ "path": ["send"] },
+				{ "path": ["reply"] },
+				{ "path": ["forward"] },
+				{ "path": ["draft"] },
+				{ "path": ["login"] },
+				{ "path": ["move"] },
+				{ "path": ["archive"] },
+				{ "path": ["label"] },
+				{ "path": ["mark-read"] },
+				{ "path": ["delete"] }
+			],
+			"flags": ["--send", "--submit", "--mark-read", "--draft"]
+		},
+		{
+			"cli": "send_email",
+			"surface": "mail sent from the personal mailbox",
+			"verbs": [{ "path": [] }],
+			"flags": []
+		},
+		{
+			"cli": "create_draft",
+			"surface": "a draft into the personal mailbox",
+			"verbs": [{ "path": [] }],
+			"flags": []
+		}
+	]
+}

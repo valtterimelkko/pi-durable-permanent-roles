@@ -1,0 +1,73 @@
+#!/usr/bin/env node
+/**
+ * bin/roles — the role host's CLI. Speaks to the running host's
+ * admin socket (<stateDir>/admin.sock); plain Node, no repository imports.
+ *
+ *   roles status                all roles' status
+ *   roles run <role>            submit a run now
+ *   roles chat <role> <text…>   a message from the owner (via cli)
+ *   roles reload                re-read roles/ and re-apply settings
+ *
+ * Pi Durable 1.5 no longer parks tasks, so there is nothing to list and nothing to un-park.
+ *
+ * State directory: STANDING_ROLES_STATE_DIR (default /var/lib/pi-roles).
+ */
+import { request } from "node:http";
+
+const stateDir = process.env.STANDING_ROLES_STATE_DIR || "/var/lib/pi-roles";
+const socketPath = `${stateDir}/admin.sock`;
+
+function usage() {
+	process.stderr.write("usage: roles status | roles run <role> | roles chat <role> <text…> | roles reload\n");
+	process.exitCode = 2;
+	throw new Error("usage");
+}
+
+const [command = "", ...rest] = process.argv.slice(2);
+
+let method = "GET";
+let path = "/status";
+let body;
+
+if (command === "status" && rest.length === 0) {
+	method = "GET";
+	path = "/status";
+} else if (command === "run" && rest.length === 1) {
+	method = "POST";
+	path = "/run";
+	body = { role: rest[0] };
+} else if (command === "chat" && rest.length >= 2) {
+	method = "POST";
+	path = "/chat";
+	body = { role: rest[0], text: rest.slice(1).join(" ") };
+} else if (command === "reload" && rest.length === 0) {
+	method = "POST";
+	path = "/reload";
+} else {
+	usage();
+}
+
+const data = body === undefined ? undefined : JSON.stringify(body);
+const req = request(
+	{
+		socketPath,
+		path,
+		method,
+		headers: data === undefined ? {} : { "content-type": "application/json", "content-length": Buffer.byteLength(data) },
+	},
+	(res) => {
+		let text = "";
+		res.on("data", (chunk) => (text += chunk.toString()));
+		res.on("end", () => {
+			// exitCode, not exit(): the write flushes before the process ends naturally.
+			process.exitCode = res.statusCode !== undefined && res.statusCode < 400 ? 0 : 1;
+			process.stdout.write(`${text}\n`);
+		});
+	},
+);
+req.on("error", (error) => {
+	process.stderr.write(`roles: the host is not answering on ${socketPath}: ${error.message}\n`);
+	process.exitCode = 1;
+});
+if (data !== undefined) req.write(data);
+req.end();

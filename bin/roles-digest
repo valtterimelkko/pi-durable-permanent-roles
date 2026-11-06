@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# roles-digest — the morning role digest.
+# Usage: bin/roles-digest [--now ISO] [--state-dir DIR] [--roles-dir DIR] [--send]
+# Reads <stateDir>/runs.jsonl and the roles' notes; writes <stateDir>/digest/<date>.json and .md; prints the
+# notification text. Sends it only with --send.
+set -euo pipefail
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+exec node "$DIR/src/digest-cli.ts" "$@"

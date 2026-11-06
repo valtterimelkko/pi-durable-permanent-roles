@@ -1,0 +1,26 @@
+{
+  "name": "pi-durable-permanent-roles",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Permanent role agents on Pi Durable: scheduled upkeep roles with hard safety limits, a daily digest, and integration seams for your own memory and messaging",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "gate": "npm run typecheck && npm test"
+  },
+  "dependencies": {
+    "@earendil-works/chord": "1.5.0",
+    "@earendil-works/pi-ai": "1.5.0",
+    "@earendil-works/pi-durable": "1.5.0",
+    "@earendil-works/pi-schema": "1.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.0.0",
+    "typescript": "5.9.2",
+    "vitest": "3.2.4"
+  }
+}

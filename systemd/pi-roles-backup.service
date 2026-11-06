@@ -1,0 +1,26 @@
+# Daily SQLite backup of the role host's state.
+#
+# The online backup reads the live database read-only and writes only under
+# <stateDir>/backups/, keeping the newest 14. It needs no running server, does not stop the
+# host and never restarts it; a failed run exits non-zero so `systemctl status pi-roles-backup`
+# and the journal show it.
+#
+# Install: cp systemd/pi-roles-backup.{service,timer} /etc/systemd/system/
+#          && systemctl daemon-reload && systemctl enable --now pi-roles-backup.timer
+[Unit]
+Description=Permanent roles nightly state backup (SQLite online backup)
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/pi-durable-permanent-roles
+Environment=HOME=/root
+Environment=STANDING_ROLES_STATE_DIR=/var/lib/pi-roles
+ExecStart=/opt/pi-durable-permanent-roles/bin/roles-backup
+# A backup of a few megabytes is not urgent: run it gently, and never past the timer's next slot.
+Nice=10
+IOSchedulingClass=idle
+TimeoutStartSec=300
+MemoryMax=512M
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# pi-roles-serve — the role host unit's ExecStart. The model registry and credentials are read
+# by the host itself from Pi's agent directory (STANDING_ROLES_PI_DIR, default ~/.pi/agent);
+# this wrapper only execs the host, so systemd supervises the Node process directly.
+set -euo pipefail
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+exec node "$DIR/src/main.ts"

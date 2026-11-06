@@ -1,0 +1,20 @@
+# pi-roles-digest — the morning role digest. Its own unit, outside the role host, so it also
+# reports a host that is down. Triggered by pi-roles-digest.timer. With --send it delivers the
+# digest through the configured notification path (or the state directory's JSONL file).
+# Install: cp systemd/pi-roles-digest.{service,timer} /etc/systemd/system/ && systemctl daemon-reload
+#          && systemctl enable --now pi-roles-digest.timer
+[Unit]
+Description=Role digest (morning, one notification, at most one needs-you card)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/pi-durable-permanent-roles
+ExecStart=/opt/pi-durable-permanent-roles/bin/roles-digest --card --send
+Environment=HOME=/root
+Environment=STANDING_ROLES_STATE_DIR=/var/lib/pi-roles
+TimeoutStartSec=10min
+MemoryMax=1G
+Nice=10
+NoNewPrivileges=true

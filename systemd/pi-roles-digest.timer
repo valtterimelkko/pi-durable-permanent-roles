@@ -1,0 +1,11 @@
+# Fires pi-roles-digest.service every morning at 06:30 in the host's time zone (the 24 hours
+# before it). Change the zone to yours.
+[Unit]
+Description=Morning role digest at 06:30
+
+[Timer]
+OnCalendar=*-*-* 06:30:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,32 @@
+{
+  "enabled": false,
+  "title": "System updates",
+  "boardName": "role-system-updates",
+  "schedule": [
+    {
+      "at": "04:00",
+      "days": "weekdays"
+    }
+  ],
+  "watches": [
+    {
+      "name": "tmp-mode",
+      "command": "stat -c %a /tmp",
+      "expect": "1777",
+      "everySeconds": 60
+    }
+  ],
+  "cwd": "/root",
+  "tools": [
+    "coding",
+    "integrations",
+    "notify"
+  ],
+  "reportCounts": [
+    "upgradable",
+    "applied",
+    "left",
+    "restarts",
+    "raised"
+  ]
+}

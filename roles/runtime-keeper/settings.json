@@ -1,0 +1,23 @@
+{
+  "enabled": false,
+  "title": "Runtime keeper",
+  "boardName": "role-runtime-keeper",
+  "schedule": [
+    {
+      "at": "03:00",
+      "days": "daily"
+    }
+  ],
+  "cwd": "/root",
+  "tools": [
+    "coding",
+    "integrations",
+    "notify"
+  ],
+  "reportCounts": [
+    "runtimes_checked",
+    "upgraded",
+    "restarts",
+    "raised"
+  ]
+}

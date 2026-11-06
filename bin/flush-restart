@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# flush-restart — the roles' one restart tool.
+#
+# Usage: bin/flush-restart <service>
+# The services are the configured guarded list (STANDING_ROLES_GUARDED_SERVICES); the role host's
+# own unit (STANDING_ROLES_SERVICE_NAME) is refused before any check: a role never restarts its
+# own host; the refusal says notify_owner, and another agent runs `systemctl restart <role-host>`
+# when no role is busy.
+#
+# Restarts a service whenever it is idle, at any hour, and only when the service is idle; otherwise
+# prints why and exits 3 ("not now"). Exit codes: 0 restarted, 2 refused (unknown service, or the
+# role host itself), 3 not now, 1 the restart command failed. Every decision is one line in
+# $STANDING_ROLES_STATE_DIR/flush-restart.log. The decision logic is src/flush-restart.ts (pure,
+# tested); this wrapper wires the real host seams (src/flush-restart-cli.ts).
+set -euo pipefail
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+exec node "$DIR/src/flush-restart-cli.ts" "$@"

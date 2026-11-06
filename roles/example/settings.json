@@ -1,0 +1,11 @@
+{
+	"enabled": false,
+	"title": "Example role",
+	"boardName": "role-example",
+	"schedule": [
+		{ "at": "09:00", "days": "weekdays" }
+	],
+	"runPrompt": "Work your example round: follow your instructions, update your notes, and notify the owner only if there is something for them.",
+	"cwd": "/root",
+	"tools": ["coding"]
+}

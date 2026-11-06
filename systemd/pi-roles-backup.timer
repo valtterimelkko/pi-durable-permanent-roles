@@ -1,0 +1,12 @@
+# Runs the daily state backup in the small hours. Persistent: a run missed while the host was
+# off happens at boot.
+[Unit]
+Description=Permanent roles nightly state backup
+
+[Timer]
+OnCalendar=*-*-* 03:10:00
+Persistent=true
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target
